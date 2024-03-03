@@ -1,30 +1,34 @@
 component: http
 name: http-django-I5kLN-kFHx
+org: '1317428810'
+app: nwpu
+stage: dev
 inputs:
+  region: ap-guangzhou
   src:
     hook: pip3 install -r requirements.txt -t ./
     dist: ./
     exclude:
       - .env
       - __pycache__/**
-  region: ap-guangzhou
   faas:
-    framework: django
-    name: '${name}'
     runtime: Python3.6
-    memorySize: 1024
     eip: true
     timeout: 3
+    memorySize: 2048
     tags: []
-    environments: []
+    framework: django
+    environments:
+      - key: SERVERLESS
+        value: '1'
   apigw:
+    timeout: 60
     protocols:
       - http
       - https
-    timeout: 60
     environment: release
     customDomains: []
-  isAutoCiDeploy: false
-org: '1317428810'
-app: nwpu
-stage: dev
+  isAutoCiDeploy: true
+  codePlatform: GITHUB
+  gitUrl: 'https://github.com/wushenhaoyu/NWPUgame_Django.git'
+  branch: master
