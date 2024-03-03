@@ -1,0 +1,30 @@
+component: http
+name: http-django-I5kLN-kFHx
+inputs:
+  src:
+    hook: pip3 install -r requirements.txt -t ./
+    dist: ./
+    exclude:
+      - .env
+      - __pycache__/**
+  region: ap-guangzhou
+  faas:
+    framework: django
+    name: '${name}'
+    runtime: Python3.6
+    memorySize: 1024
+    eip: true
+    timeout: 3
+    tags: []
+    environments: []
+  apigw:
+    protocols:
+      - http
+      - https
+    timeout: 60
+    environment: release
+    customDomains: []
+  isAutoCiDeploy: false
+org: '1317428810'
+app: nwpu
+stage: dev
