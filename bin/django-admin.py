@@ -1,4 +1,4 @@
-#!C:\Users\wushen\.conda\envs\NWPU\python.exe
+#!/Users/yugasun/.pyenv/versions/3.7.0/bin/python3.7
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 
