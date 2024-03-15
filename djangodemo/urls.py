@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from djangodemo.views import index
+from djangodemo.views import index ,serve_video
 from django.http import FileResponse
 from django.conf import settings
 import os
@@ -26,4 +26,5 @@ import os
 urlpatterns = [
     path('', index),
     path('admin/', admin.site.urls),
+    path('video/<str:video_name>/', serve_video, name='serve_video'),
 ]
