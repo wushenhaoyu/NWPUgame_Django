@@ -4,8 +4,10 @@ from django.conf import settings
 import os
 
 # Create your views here.
-
 def index(request):
+    return render(request, 'main.html', context={'hello': 'world'})
+    
+def game(request):
     return render(request, 'index.html', context={'hello': 'world'})
 
 def author(request):
