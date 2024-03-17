@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
-from openai import OpenAI
+from openai import OpenAI, OpenAIError
 import os
 
 # Create your views here.
@@ -27,17 +27,28 @@ def serve_video(request, video_name):
         return HttpResponse("Video not found", status=404)
 
 
+from openai import OpenAI, OpenAIError
+import os
+from django.http import JsonResponse
+
 def chat_with_gpt(request):
     if request.method == 'POST':
         message = request.POST.get('message', '')  # 获取POST请求中的消息内容
 
         client = OpenAI()
-        client.api_key = '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'
+        client.api_key = os.environ.get('OPENAI_API_KEY')
 
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",  
-            messages=[{"role": "user", "content": message}]
-        )
+        preset_messages = [
+            {"role": "system", "content": "你是一个西北工业大学的校园导游,你的回答需要是中文"},
+        ]
+
+        try:
+            response = client.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=preset_messages + [{"role": "user", "content": message}]
+            )
+        except OpenAIError as e:
+            return JsonResponse({'error': 'OpenAI API call failed: ' + str(e)})
 
         completion = response.choices[0].message['content']  # 获取返回的对话内容
 
