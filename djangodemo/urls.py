@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from djangodemo.views import game ,serve_video,index
+from djangodemo.views import chat_with_gpt, game ,serve_video,index
 from django.http import FileResponse
 from django.conf import settings
 import os
@@ -28,4 +28,5 @@ urlpatterns = [
     path('game/', game),
     path('admin/', admin.site.urls),
     path('video/<str:video_name>/', serve_video, name='serve_video'),
+    path('chat/', chat_with_gpt, name='chat_with_gpt'),
 ]

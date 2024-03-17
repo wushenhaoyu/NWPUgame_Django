@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.conf import settings
+from openai import OpenAI
 import os
 
 # Create your views here.
@@ -24,3 +25,22 @@ def serve_video(request, video_name):
             return response
     else:
         return HttpResponse("Video not found", status=404)
+
+
+def chat_with_gpt(request):
+    if request.method == 'POST':
+        message = request.POST.get('message', '')  # 获取POST请求中的消息内容
+
+        client = OpenAI()
+        client.api_key = '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'
+
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",  
+            messages=[{"role": "user", "content": message}]
+        )
+
+        completion = response.choices[0].message['content']  # 获取返回的对话内容
+
+        return JsonResponse({'completion': completion})
+
+    return JsonResponse({'error': 'Only POST requests are allowed.'})
